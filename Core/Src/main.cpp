@@ -23,9 +23,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "UML_FSM.hpp"
+#include "FreeRTOS.h"
+#include "task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
+typedef StaticTimer_t osStaticTimerDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -41,12 +45,37 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+/* Definitions for TaskFSM1 */
+osThreadId_t TaskFSM1Handle;
+uint32_t TaskFSM1Buffer[ 128 ];
+osStaticThreadDef_t TaskFSM1ControlBlock;
+const osThreadAttr_t TaskFSM1_attributes = {
+  .name = "TaskFSM1",
+  .cb_mem = &TaskFSM1ControlBlock,
+  .cb_size = sizeof(TaskFSM1ControlBlock),
+  .stack_mem = &TaskFSM1Buffer[0],
+  .stack_size = sizeof(TaskFSM1Buffer),
+  .priority = (osPriority_t) osPriorityNormal1,
+};
+/* Definitions for TaskFSM2 */
+osThreadId_t TaskFSM2Handle;
+uint32_t TaskFSM2Buffer[ 128 ];
+osStaticThreadDef_t TaskFSM2ControlBlock;
+const osThreadAttr_t TaskFSM2_attributes = {
+  .name = "TaskFSM2",
+  .cb_mem = &TaskFSM2ControlBlock,
+  .cb_size = sizeof(TaskFSM2ControlBlock),
+  .stack_mem = &TaskFSM2Buffer[0],
+  .stack_size = sizeof(TaskFSM2Buffer),
+  .priority = (osPriority_t) osPriorityBelowNormal2,
+};
+/* Definitions for myTimer */
+osTimerId_t myTimerHandle;
+osStaticTimerDef_t myTimerControlBlock;
+const osTimerAttr_t myTimer_attributes = {
+  .name = "myTimer",
+  .cb_mem = &myTimerControlBlock,
+  .cb_size = sizeof(myTimerControlBlock),
 };
 /* USER CODE BEGIN PV */
 
@@ -55,7 +84,9 @@ const osThreadAttr_t defaultTask_attributes = {
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-void StartDefaultTask(void *argument);
+void fTaskFSM1(void *argument);
+void fTaskFSM2(void *argument);
+void TimerCallback(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -63,10 +94,53 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void foo()
+typedef enum
 {
-	  int b = 10;
-}
+	STATE_FSM1,
+	STATE_FSM2,
+STATE_BLINK_SHORT,
+STATE_BLINK_LONG,
+STATE_BLINK_REAL,
+STATE_WHAIT_TIMER,
+STATE_NUM
+}State_t;
+
+typedef enum
+{
+EVENT_ERROR,
+EVENT_TYMER_UPDATE,
+EVENT_NUM
+}Event_t;
+
+typedef enum
+{
+MACHINE_1,
+MACHINE_2,
+MACHINE_NUM
+}Machine_t;
+
+
+
+
+
+
+
+
+void f_stateBlinkShort();
+
+void f_stateBlinkLong();
+
+void f_stateBlinkReal();
+
+
+void f_stateWhaitTimer();
+
+
+
+FiniteStateMachine fsm1;
+StandardStates stateBlinkShort= fsm1.createStateStandart(STATE_BLINK_SHORT, STATE_BLINK_LONG, f_stateBlinkShort);
+StandardStates stateBlinkLong = fsm1.createStateStandart(STATE_BLINK_LONG, STATE_BLINK_SHORT, f_stateBlinkLong);
+
 /* USER CODE END 0 */
 
 /**
@@ -76,7 +150,7 @@ void foo()
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	fsm1.setStartState(STATE_BLINK_SHORT);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -112,6 +186,10 @@ int main(void)
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
+  /* Create the timer(s) */
+  /* creation of myTimer */
+  myTimerHandle = osTimerNew(TimerCallback, osTimerPeriodic, NULL, &myTimer_attributes);
+
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
@@ -121,17 +199,17 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of TaskFSM1 */
+  TaskFSM1Handle = osThreadNew(fTaskFSM1, NULL, &TaskFSM1_attributes);
+
+  /* creation of TaskFSM2 */
+  TaskFSM2Handle = osThreadNew(fTaskFSM2, NULL, &TaskFSM2_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
-
-  FiniteStateMachine fsm;
-  fsm.createStateStandart(0, 1, foo);
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
 
@@ -216,25 +294,101 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void f_stateBlinkShort()
+{
+	const uint32_t xFrequency = 500; // 500 миллисекунд
+	const TickType_t xTransitionTime = pdMS_TO_TICKS(6000); // 6 секунд
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	while((xTaskGetTickCount() - xLastWakeTime) < xTransitionTime)
+	{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Выполнение действий для состояния 1
+	osDelay(xFrequency); // Задержка в тиках времени FreeRTOS
+	}
+	fsm1.next();
+	//fsm1.pState->end();
+}
 
+void f_stateBlinkLong()
+{
+	const uint32_t xFrequency = 1000; // 500 миллисекунд
+	const TickType_t xTransitionTime = pdMS_TO_TICKS(6000); // 6 секунд
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	while((xTaskGetTickCount() - xLastWakeTime) < xTransitionTime)
+	{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Выполнение действий для состояния 1
+	osDelay(xFrequency); // Задержка в тиках времени FreeRTOS
+	}
+	fsm1.next();
+}
+
+void f_stateBlinkReal()
+{
+	const uint32_t xFrequency = 100; // 100 миллисекунд
+	const TickType_t xTransitionTime = pdMS_TO_TICKS(2000); // 2 секунд
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	  while((xTaskGetTickCount() - xLastWakeTime) < xTransitionTime)
+	  {
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Выполнение действий для состояния 1
+		  osDelay(xFrequency); // Задержка в тиках времени FreeRTOS
+	  }
+	 // stateBlinkReal.end();
+
+}
+
+void f_stateWhaitTimer()
+{/*
+	osTimerStart(TimerSoftHandle, pdMS_TO_TICKS(10000));
+
+
+	waitForEvent(thisState[num_machine]) ;
+*/
+}
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_fTaskFSM1 */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the TaskFSM1 thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_fTaskFSM1 */
+void fTaskFSM1(void *argument)
 {
   /* USER CODE BEGIN 5 */
+fsm1.stateMachine();
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
   /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_fTaskFSM2 */
+/**
+* @brief Function implementing the TaskFSM2 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_fTaskFSM2 */
+void fTaskFSM2(void *argument)
+{
+  /* USER CODE BEGIN fTaskFSM2 */
+
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1000);
+  }
+  /* USER CODE END fTaskFSM2 */
+}
+
+/* TimerCallback function */
+void TimerCallback(void *argument)
+{
+  /* USER CODE BEGIN TimerCallback */
+
+  /* USER CODE END TimerCallback */
 }
 
 /**

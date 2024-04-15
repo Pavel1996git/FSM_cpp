@@ -1,7 +1,15 @@
-../Core/Src/main.cpp:66:6:void foo()	16	static
-../Core/Src/main.cpp:76:5:int main()	160	static
-../Core/Src/main.cpp:157:6:void SystemClock_Config()	72	static
-../Core/Src/main.cpp:194:13:void MX_GPIO_Init()	32	static
-../Core/Src/main.cpp:229:6:void StartDefaultTask(void*)	16	static
-../Core/Src/main.cpp:248:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-../Core/Src/main.cpp:265:6:void Error_Handler()	4	static,ignoring_inline_asm
+../Core/Src/main.cpp:150:5:int main()	8	static
+../Core/Src/main.cpp:235:6:void SystemClock_Config()	72	static
+../Core/Src/main.cpp:272:13:void MX_GPIO_Init()	32	static
+../Core/Src/main.cpp:297:6:void f_stateBlinkShort()	24	static
+../Core/Src/main.cpp:311:6:void f_stateBlinkLong()	24	static
+../Core/Src/main.cpp:324:6:void f_stateBlinkReal()	24	static
+../Core/Src/main.cpp:338:6:void f_stateWhaitTimer()	4	static
+../Core/Src/main.cpp:355:6:void fTaskFSM1(void*)	16	static
+../Core/Src/main.cpp:374:6:void fTaskFSM2(void*)	16	static
+../Core/Src/main.cpp:387:6:void TimerCallback(void*)	16	static
+../Core/Src/main.cpp:402:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+../Core/Src/main.cpp:419:6:void Error_Handler()	4	static,ignoring_inline_asm
+../Core/Src/main.cpp:428:1:void __static_initialization_and_destruction_0(int, int)	24	static
+../Core/Src/main.cpp:428:1:cpp)	8	static
+../Core/Src/main.cpp:428:1:cpp)	8	static

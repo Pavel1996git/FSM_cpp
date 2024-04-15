@@ -29,7 +29,13 @@ FiniteStateMachine::~FiniteStateMachine() {}
 
 // BaseState constructor
 BaseState::BaseState(stateType initial, stateType new_state, FiniteStateMachine* pFSM, StateFunction funct)
-    : initial_state(initial), new_state(new_state), pFiniteStateMachine(pFSM), functPtr(funct) {}
+    : initial_state(initial), new_state(new_state), pFiniteStateMachine(pFSM), functPtr(funct) {
+	pFiniteStateMachine->stateDictionary.emplace(initial, this);
+}
+void BaseState::next()
+{
+
+}
 
 // ChoiseStates constructor
 ChoiseStates::ChoiseStates(stateType initial_state, FiniteStateMachine* pFiniteStateMachine, StateFunction functPtr)
@@ -55,6 +61,10 @@ void ChoiseStates::goChoise() {
     pFiniteStateMachine->thisState = stateChoise.at(thisChoise);
 }
 
+void ChoiseStates::next()
+{
+	goChoise();
+}
 // StandardStates constructor
 StandardStates::StandardStates(stateType initial_state, stateType new_state, FiniteStateMachine* pFiniteStateMachine, StateFunction functPtr)
     : BaseState(initial_state, new_state, pFiniteStateMachine, functPtr) {
@@ -63,9 +73,20 @@ StandardStates::StandardStates(stateType initial_state, stateType new_state, Fin
 
 // StandardStates method: end
 void StandardStates::end() {
+
     pFiniteStateMachine->thisState = new_state;
 }
 
+void StandardStates::next ()
+{
+	end();
+}
+/*
+// StandardStates method: end
+void FiniteStateMachine::next() {
+    this->thisState = new_state;
+}
+*/
 // EventStates constructor
 EventStates::EventStates(stateType initial_state, FiniteStateMachine* pFiniteStateMachine, StateFunction functPtr)
     : BaseState(initial_state, -1, pFiniteStateMachine, functPtr) {
@@ -93,9 +114,13 @@ void EventStates::waitEvent() {
             osDelay(1);
         }
     }
+
     pFiniteStateMachine->thisState = new_state;
 }
-
+void EventStates::next()
+{
+	waitEvent();
+}
 // EventStates method: handleTransition
 stateType EventStates::handleTransition(stateType event) {
     if (transitionEvent.at(event) != -1) {
@@ -132,6 +157,7 @@ void FiniteStateMachine::sendEvent(stateType event) {
 // FiniteStateMachine method: setStartState
 void FiniteStateMachine::setStartState(stateType state) {
     startState = state;
+    //this->pState =
 }
 
 // FiniteStateMachine method: stateMashine
@@ -139,12 +165,14 @@ void FiniteStateMachine::stateMachine()
 {
     this->thisState = startState;
     for(;;) {
-        this->transitionTable.stateFunctions[this->thisState]();
+    	this->pState = stateDictionary[thisState];
+    	this->transitionTable.stateFunctions[this->thisState]();
     }
 }
-
-
-
+void FiniteStateMachine::next()
+{
+	pState->next();
+}
 
 
 /*

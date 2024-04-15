@@ -14,16 +14,13 @@
 #include "queue.h"
 #include <array>
 #include <queue>
-
+#include <unordered_map>
 //#define NUM_STATES 10
 //#define NUM_EVENTS 5
 //#define NUM_MACHINES 2
 
-
-
-
-
 // Forward declaration of classes
+class BaseState;
 class StandardStates;
 class EventStates;
 class ChoiseStates;
@@ -63,13 +60,21 @@ public:
     void setStartState(stateType state);
     void sendEvent(stateType event);
     void stateMachine();
+    void next();
+  /*  void next();*/
 
     friend class StandardStates;
     friend class EventStates;
     friend class ChoiseStates;
 
+    BaseState* pState;
+    // Определение типа словаря
+    using StateMap = std::unordered_map<stateType, BaseState*>;
+    // Создание пустого словаря
+    StateMap stateDictionary;
 private:
     stateType thisState;
+    stateType next_state;
     stateType startState;
     TransitionTable transitionTable;
 };
@@ -84,6 +89,7 @@ protected:
 
 public:
     BaseState(stateType initial, stateType new_state, FiniteStateMachine* pFSM, StateFunction funct);
+    virtual void next();
 };
 
 // ChoiseStates class definition
@@ -94,6 +100,7 @@ public:
     void addChoise(stateType choise, stateType new_state);
     void setChoise(stateType choise);
     void goChoise();
+    void next() override;
 
 private:
     stateType thisChoise;
@@ -106,6 +113,7 @@ public:
     StandardStates(stateType initial_state, stateType new_state, FiniteStateMachine* pFiniteStateMachine, StateFunction functPtr);
 
     void end();
+    void next () override;
 };
 
 // EventStates class definition
@@ -115,6 +123,7 @@ public:
 
     void addEvent(stateType event, stateType new_state);
     void waitEvent();
+    void next () override;
 
 private:
     stateType handleTransition(stateType event);
