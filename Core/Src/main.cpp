@@ -141,6 +141,12 @@ FiniteStateMachine fsm1;
 StandardStates stateBlinkShort= fsm1.createStateStandart(STATE_BLINK_SHORT, STATE_BLINK_LONG, f_stateBlinkShort);
 StandardStates stateBlinkLong = fsm1.createStateStandart(STATE_BLINK_LONG, STATE_BLINK_SHORT, f_stateBlinkLong);
 
+FiniteStateMachine fsm2;
+
+StandardStates stateBlinkReal= fsm2.createStateStandart(STATE_BLINK_REAL, STATE_WHAIT_TIMER, f_stateBlinkReal);
+EventStates stateWhaitTimer = fsm2.createStateEvent(STATE_WHAIT_TIMER, f_stateWhaitTimer);
+
+
 /* USER CODE END 0 */
 
 /**
@@ -151,6 +157,8 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	fsm1.setStartState(STATE_BLINK_SHORT);
+	fsm2.setStartState(STATE_WHAIT_TIMER);
+	stateWhaitTimer.addEvent(EVENT_TYMER_UPDATE, STATE_BLINK_REAL);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -331,17 +339,17 @@ void f_stateBlinkReal()
 		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Выполнение действий для состояния 1
 		  osDelay(xFrequency); // Задержка в тиках времени FreeRTOS
 	  }
-	 // stateBlinkReal.end();
+	 fsm2.next();
 
 }
 
 void f_stateWhaitTimer()
-{/*
-	osTimerStart(TimerSoftHandle, pdMS_TO_TICKS(10000));
+{
+	osTimerStart(myTimerHandle, pdMS_TO_TICKS(10000));
 
 
-	waitForEvent(thisState[num_machine]) ;
-*/
+	fsm2.next();
+
 }
 /* USER CODE END 4 */
 
@@ -359,7 +367,7 @@ fsm1.stateMachine();
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(1000);
   }
   /* USER CODE END 5 */
 }
@@ -374,7 +382,7 @@ fsm1.stateMachine();
 void fTaskFSM2(void *argument)
 {
   /* USER CODE BEGIN fTaskFSM2 */
-
+fsm2.stateMachine();
   /* Infinite loop */
   for(;;)
   {
@@ -387,7 +395,7 @@ void fTaskFSM2(void *argument)
 void TimerCallback(void *argument)
 {
   /* USER CODE BEGIN TimerCallback */
-
+fsm2.sendEvent(EVENT_TYMER_UPDATE);
   /* USER CODE END TimerCallback */
 }
 

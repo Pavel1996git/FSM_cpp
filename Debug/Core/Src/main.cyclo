@@ -1,15 +1,15 @@
-../Core/Src/main.cpp:150:5:int main()	1
-../Core/Src/main.cpp:235:6:void SystemClock_Config()	3
-../Core/Src/main.cpp:272:13:void MX_GPIO_Init()	1
-../Core/Src/main.cpp:297:6:void f_stateBlinkShort()	2
-../Core/Src/main.cpp:311:6:void f_stateBlinkLong()	2
-../Core/Src/main.cpp:324:6:void f_stateBlinkReal()	2
-../Core/Src/main.cpp:338:6:void f_stateWhaitTimer()	1
-../Core/Src/main.cpp:355:6:void fTaskFSM1(void*)	1
-../Core/Src/main.cpp:374:6:void fTaskFSM2(void*)	1
-../Core/Src/main.cpp:387:6:void TimerCallback(void*)	1
-../Core/Src/main.cpp:402:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
-../Core/Src/main.cpp:419:6:void Error_Handler()	1
-../Core/Src/main.cpp:428:1:void __static_initialization_and_destruction_0(int, int)	5
-../Core/Src/main.cpp:428:1:cpp)	1
-../Core/Src/main.cpp:428:1:cpp)	1
+../Core/Src/main.cpp:156:5:int main()	1
+../Core/Src/main.cpp:243:6:void SystemClock_Config()	3
+../Core/Src/main.cpp:280:13:void MX_GPIO_Init()	1
+../Core/Src/main.cpp:305:6:void f_stateBlinkShort()	2
+../Core/Src/main.cpp:319:6:void f_stateBlinkLong()	2
+../Core/Src/main.cpp:332:6:void f_stateBlinkReal()	2
+../Core/Src/main.cpp:346:6:void f_stateWhaitTimer()	1
+../Core/Src/main.cpp:363:6:void fTaskFSM1(void*)	1
+../Core/Src/main.cpp:382:6:void fTaskFSM2(void*)	1
+../Core/Src/main.cpp:395:6:void TimerCallback(void*)	1
+../Core/Src/main.cpp:410:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
+../Core/Src/main.cpp:427:6:void Error_Handler()	1
+../Core/Src/main.cpp:436:1:void __static_initialization_and_destruction_0(int, int)	5
+../Core/Src/main.cpp:436:1:cpp)	1
+../Core/Src/main.cpp:436:1:cpp)	1

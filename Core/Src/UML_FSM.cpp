@@ -40,6 +40,7 @@ void BaseState::next()
 // ChoiseStates constructor
 ChoiseStates::ChoiseStates(stateType initial_state, FiniteStateMachine* pFiniteStateMachine, StateFunction functPtr)
     : BaseState(initial_state, -1, pFiniteStateMachine, functPtr) {
+	pFiniteStateMachine->transitionTable.stateFunctions.at(initial_state) = functPtr;
     stateChoise.fill(-1);
 }
 
@@ -92,6 +93,7 @@ EventStates::EventStates(stateType initial_state, FiniteStateMachine* pFiniteSta
     : BaseState(initial_state, -1, pFiniteStateMachine, functPtr) {
     transitionEvent.fill(-1);
     eventQueuePtr = &(pFiniteStateMachine->transitionTable.eventQueue);
+    pFiniteStateMachine->transitionTable.stateFunctions.at(initial_state) = functPtr;
 }
 
 // EventStates method: addEvent
@@ -101,12 +103,14 @@ void EventStates::addEvent(stateType event, stateType new_state) {
 
 // EventStates method: waitEvent
 void EventStates::waitEvent() {
+	stateType currentEvent;
     while (1) {
+
         while (eventQueuePtr->empty()) {
             osDelay(1);
         }
 
-        stateType currentEvent = eventQueuePtr->front();
+       currentEvent = eventQueuePtr->front();
         if (handleTransition(currentEvent) != -1) {
             eventQueuePtr->pop();
             break;
@@ -115,7 +119,7 @@ void EventStates::waitEvent() {
         }
     }
 
-    pFiniteStateMachine->thisState = new_state;
+    pFiniteStateMachine->thisState = handleTransition(currentEvent);
 }
 void EventStates::next()
 {
