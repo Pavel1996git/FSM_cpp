@@ -102,6 +102,7 @@ STATE_BLINK_SHORT,
 STATE_BLINK_LONG,
 STATE_BLINK_REAL,
 STATE_WHAIT_TIMER,
+STATE_CHOISE_BLINK,
 STATE_NUM
 }State_t;
 
@@ -112,18 +113,17 @@ EVENT_TYMER_UPDATE,
 EVENT_NUM
 }Event_t;
 
+
 typedef enum
 {
-MACHINE_1,
-MACHINE_2,
-MACHINE_NUM
-}Machine_t;
+	CHOISE_GO_BLINK,
+	CHOISE_WHAIT,
+	CHOISE_NUM
+}Choise_t;
 
 
 
-
-
-
+int countRealBlink;
 
 
 void f_stateBlinkShort();
@@ -135,7 +135,12 @@ void f_stateBlinkReal();
 
 void f_stateWhaitTimer();
 
+void f_choiseBlink();
 
+void stateOsDelay(uint32_t delay)
+{
+	osDelay(delay);
+}
 
 FiniteStateMachine fsm1;
 StandardStates stateBlinkShort= fsm1.createStateStandart(STATE_BLINK_SHORT, STATE_BLINK_LONG, f_stateBlinkShort);
@@ -145,6 +150,7 @@ FiniteStateMachine fsm2;
 
 StandardStates stateBlinkReal= fsm2.createStateStandart(STATE_BLINK_REAL, STATE_WHAIT_TIMER, f_stateBlinkReal);
 EventStates stateWhaitTimer = fsm2.createStateEvent(STATE_WHAIT_TIMER, f_stateWhaitTimer);
+ChoiseStates stateChoiseBlink = fsm2.createStateChoise(STATE_CHOISE_BLINK, f_choiseBlink);
 
 
 /* USER CODE END 0 */
@@ -156,9 +162,14 @@ EventStates stateWhaitTimer = fsm2.createStateEvent(STATE_WHAIT_TIMER, f_stateWh
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	fsm1.setDelayFunctionPointer(&stateOsDelay); // Установка указателя на внешнюю функцию
+	fsm2.setDelayFunctionPointer(&stateOsDelay); // Установка указателя на внешнюю функцию
+
 	fsm1.setStartState(STATE_BLINK_SHORT);
 	fsm2.setStartState(STATE_WHAIT_TIMER);
-	stateWhaitTimer.addEvent(EVENT_TYMER_UPDATE, STATE_BLINK_REAL);
+	stateWhaitTimer.addEvent(EVENT_TYMER_UPDATE, STATE_CHOISE_BLINK);
+	stateChoiseBlink.addChoise(CHOISE_GO_BLINK, STATE_BLINK_REAL);
+	stateChoiseBlink.addChoise(CHOISE_WHAIT, STATE_WHAIT_TIMER);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -350,6 +361,18 @@ void f_stateWhaitTimer()
 
 	fsm2.next();
 
+}
+
+void f_choiseBlink()
+{
+	if(countRealBlink>3)
+		stateChoiseBlink.setChoise(CHOISE_WHAIT);
+	else
+	{
+		stateChoiseBlink.setChoise(CHOISE_GO_BLINK);
+		++countRealBlink;
+	}
+	fsm2.next();
 }
 /* USER CODE END 4 */
 

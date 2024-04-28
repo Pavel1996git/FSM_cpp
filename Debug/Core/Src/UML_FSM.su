@@ -8,7 +8,7 @@
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/hashtable_policy.h:473:5:std::__detail::_Prime_rehash_policy::_State std::__detail::_Prime_rehash_policy::_M_state() const	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_algobase.h:230:5:constexpr const _Tp& std::min(const _Tp&, const _Tp&) [with _Tp = unsigned int]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_queue.h:96:11:std::queue<signed char>::~queue()	16	static
-../Core/Src/UML_FSM.cpp:18:1:TransitionTable::TransitionTable()	24	static
+../Core/Src/UML_FSM.cpp:25:1:TransitionTable::TransitionTable()	24	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/hashtable_policy.h:1210:7:std::__detail::_Hash_code_base<_Key, _Value, _ExtractKey, _Hash, _RangeHash, _Unused, __cache_hash_code>::_Hash_code_base() [with _Key = signed char; _Value = std::pair<const signed char, BaseState*>; _ExtractKey = std::__detail::_Select1st; _Hash = std::hash<signed char>; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; bool __cache_hash_code = false]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/hashtable_policy.h:1604:7:std::__detail::_Hashtable_base<_Key, _Value, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _Traits>::_Hashtable_base() [with _Key = signed char; _Value = std::pair<const signed char, BaseState*>; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<signed char>; _Hash = std::hash<signed char>; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _Traits = std::__detail::_Hashtable_traits<false, false, true>]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/hashtable_policy.h:1124:12:std::__detail::_Hashtable_ebo_helper<0, std::allocator<std::__detail::_Hash_node<std::pair<const signed char, BaseState*>, false> >, true>::~_Hashtable_ebo_helper()	16	static
@@ -17,33 +17,35 @@
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/hashtable.h:528:7:std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Hashtable() [with _Key = signed char; _Value = std::pair<const signed char, BaseState*>; _Alloc = std::allocator<std::pair<const signed char, BaseState*> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<signed char>; _Hash = std::hash<signed char>; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<false, false, true>]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/unordered_map.h:141:7:std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map() [with _Key = signed char; _Tp = BaseState*; _Hash = std::hash<signed char>; _Pred = std::equal_to<signed char>; _Alloc = std::allocator<std::pair<const signed char, BaseState*> >]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/unordered_map.h:102:11:std::unordered_map<signed char, BaseState*>::~unordered_map()	16	static
-../Core/Inc/UML_FSM.hpp:38:7:TransitionTable::~TransitionTable()	16	static
+../Core/Inc/UML_FSM.hpp:45:7:TransitionTable::~TransitionTable()	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_queue.h:96:11:std::queue<signed char>& std::queue<signed char>::operator=(std::queue<signed char>&&)	16	static
-../Core/Inc/UML_FSM.hpp:38:7:TransitionTable& TransitionTable::operator=(TransitionTable&&)	24	static
-../Core/Src/UML_FSM.cpp:23:1:FiniteStateMachine::FiniteStateMachine()	152	static
-../Core/Src/UML_FSM.cpp:28:1:FiniteStateMachine::~FiniteStateMachine()	16	static
-../Core/Src/UML_FSM.cpp:31:1:BaseState::BaseState(stateType, stateType, FiniteStateMachine*, StateFunction)	40	static
-../Core/Src/UML_FSM.cpp:35:6:virtual void BaseState::next()	16	static
-../Core/Src/UML_FSM.cpp:41:1:ChoiseStates::ChoiseStates(stateType, FiniteStateMachine*, StateFunction)	40	static
-../Core/Src/UML_FSM.cpp:48:6:void ChoiseStates::addChoise(stateType, stateType)	16	static
-../Core/Src/UML_FSM.cpp:53:6:void ChoiseStates::setChoise(stateType)	16	static
-../Core/Src/UML_FSM.cpp:58:6:void ChoiseStates::goChoise()	24	static
-../Core/Src/UML_FSM.cpp:65:6:virtual void ChoiseStates::next()	16	static
-../Core/Src/UML_FSM.cpp:70:1:StandardStates::StandardStates(stateType, stateType, FiniteStateMachine*, StateFunction)	32	static
-../Core/Src/UML_FSM.cpp:76:6:void StandardStates::end()	16	static
-../Core/Src/UML_FSM.cpp:81:6:virtual void StandardStates::next()	16	static
-../Core/Src/UML_FSM.cpp:92:1:EventStates::EventStates(stateType, FiniteStateMachine*, StateFunction)	40	static
-../Core/Src/UML_FSM.cpp:100:6:void EventStates::addEvent(stateType, stateType)	16	static
-../Core/Src/UML_FSM.cpp:105:6:void EventStates::waitEvent()	32	static
-../Core/Src/UML_FSM.cpp:124:6:virtual void EventStates::next()	16	static
-../Core/Src/UML_FSM.cpp:129:11:stateType EventStates::handleTransition(stateType)	24	static
-../Core/Src/UML_FSM.cpp:140:16:StandardStates FiniteStateMachine::createStateStandart(stateType, stateType, StateFunction)	32	static
-../Core/Src/UML_FSM.cpp:147:13:EventStates FiniteStateMachine::createStateEvent(stateType, StateFunction)	24	static
-../Core/Src/UML_FSM.cpp:152:14:ChoiseStates FiniteStateMachine::createStateChoise(stateType, StateFunction)	24	static
-../Core/Src/UML_FSM.cpp:157:6:void FiniteStateMachine::sendEvent(stateType)	16	static
-../Core/Src/UML_FSM.cpp:162:6:void FiniteStateMachine::setStartState(stateType)	16	static
-../Core/Src/UML_FSM.cpp:168:6:void FiniteStateMachine::stateMachine()	16	static
-../Core/Src/UML_FSM.cpp:176:6:void FiniteStateMachine::next()	16	static
+../Core/Inc/UML_FSM.hpp:45:7:TransitionTable& TransitionTable::operator=(TransitionTable&&)	24	static
+../Core/Src/UML_FSM.cpp:30:1:FiniteStateMachine::FiniteStateMachine()	112	static
+../Core/Src/UML_FSM.cpp:36:1:FiniteStateMachine::~FiniteStateMachine()	16	static
+../Core/Src/UML_FSM.cpp:39:1:BaseState::BaseState(stateType, stateType, FiniteStateMachine*, StateFunction)	40	static
+../Core/Src/UML_FSM.cpp:43:6:virtual void BaseState::next()	16	static
+../Core/Src/UML_FSM.cpp:49:1:ChoiseStates::ChoiseStates(stateType, FiniteStateMachine*, StateFunction)	40	static
+../Core/Src/UML_FSM.cpp:56:6:void ChoiseStates::addChoise(stateType, stateType)	16	static
+../Core/Src/UML_FSM.cpp:61:6:void ChoiseStates::setChoise(stateType)	16	static
+../Core/Src/UML_FSM.cpp:66:6:void ChoiseStates::goChoise()	24	static
+../Core/Src/UML_FSM.cpp:73:6:virtual void ChoiseStates::next()	16	static
+../Core/Src/UML_FSM.cpp:78:1:StandardStates::StandardStates(stateType, stateType, FiniteStateMachine*, StateFunction)	32	static
+../Core/Src/UML_FSM.cpp:84:6:void StandardStates::end()	16	static
+../Core/Src/UML_FSM.cpp:89:6:virtual void StandardStates::next()	16	static
+../Core/Src/UML_FSM.cpp:100:1:EventStates::EventStates(stateType, FiniteStateMachine*, StateFunction)	40	static
+../Core/Src/UML_FSM.cpp:108:6:void EventStates::addEvent(stateType, stateType)	16	static
+../Core/Src/UML_FSM.cpp:113:6:void EventStates::waitEvent()	32	static
+../Core/Src/UML_FSM.cpp:132:6:virtual void EventStates::next()	16	static
+../Core/Src/UML_FSM.cpp:137:11:stateType EventStates::handleTransition(stateType)	24	static
+../Core/Src/UML_FSM.cpp:148:16:StandardStates FiniteStateMachine::createStateStandart(stateType, stateType, StateFunction)	32	static
+../Core/Src/UML_FSM.cpp:155:13:EventStates FiniteStateMachine::createStateEvent(stateType, StateFunction)	24	static
+../Core/Src/UML_FSM.cpp:160:14:ChoiseStates FiniteStateMachine::createStateChoise(stateType, StateFunction)	24	static
+../Core/Src/UML_FSM.cpp:165:6:void FiniteStateMachine::sendEvent(stateType)	16	static
+../Core/Src/UML_FSM.cpp:170:6:void FiniteStateMachine::setStartState(stateType)	16	static
+../Core/Src/UML_FSM.cpp:176:6:void FiniteStateMachine::stateMachine()	16	static
+../Core/Src/UML_FSM.cpp:184:6:void FiniteStateMachine::next()	16	static
+../Core/Src/UML_FSM.cpp:189:6:void bareMetalDelay(uint32_t)	24	static
+../Core/Src/UML_FSM.cpp:195:6:void FiniteStateMachine::setDelayFunctionPointer(FiniteStateMachine::DelayFunctionPtr)	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_algobase.h:254:5:constexpr const _Tp& std::max(const _Tp&, const _Tp&) [with _Tp = unsigned int]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_deque.h:834:7:std::deque<_Tp, _Alloc>::deque() [with _Tp = signed char; _Alloc = std::allocator<signed char>]	16	static
 /opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/arm-none-eabi/include/c++/11.3.1/bits/stl_queue.h:166:2:std::queue<_Tp, _Sequence>::queue() [with _Seq = std::deque<signed char, std::allocator<signed char> >; _Requires = void; _Tp = signed char; _Sequence = std::deque<signed char, std::allocator<signed char> >]	16	static

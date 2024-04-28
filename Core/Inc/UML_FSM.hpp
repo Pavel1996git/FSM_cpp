@@ -10,8 +10,8 @@
 
 #include "stdint.h"
 #include "stdio.h"
-#include "cmsis_os.h"
-#include "queue.h"
+//#include "cmsis_os.h"
+//#include "queue.h"
 #include <array>
 #include <queue>
 #include <unordered_map>
@@ -34,13 +34,20 @@ const stateType NUM_MACHINES = 5;
 // Define StateFunction type
 using StateFunction = void (*)();
 
+void bareMetalDelay(uint32_t delay_tik);
+// Использование using (C++11 и выше)
+//using DelayFunctionPtr = void (*)(uint32_t);
+
+// Инициализация указателя на функцию
+//extern DelayFunctionPtr delayFunctionPointer;
+
 // TransitionTable class definition
 class TransitionTable {
 public:
     TransitionTable();
 
     std::array<StateFunction, NUM_STATES> stateFunctions;
-    std::array<osMessageQueueId_t, NUM_STATES> stateQueueMappings;
+   // std::array<osMessageQueueId_t, NUM_STATES> stateQueueMappings;
     std::queue<stateType> eventQueue;
 
 private:
@@ -51,6 +58,7 @@ private:
 // FiniteStateMachine class definition
 class FiniteStateMachine {
 public:
+	using DelayFunctionPtr = void (*)(uint32_t);
     FiniteStateMachine();
     ~FiniteStateMachine();
 
@@ -61,6 +69,11 @@ public:
     void sendEvent(stateType event);
     void stateMachine();
     void next();
+
+    DelayFunctionPtr delayFunctionPointer;
+    // Метод для изменения указателя на функцию задержки
+    void setDelayFunctionPointer(DelayFunctionPtr newPtr);
+
   /*  void next();*/
 
     friend class StandardStates;
@@ -124,6 +137,7 @@ public:
     void addEvent(stateType event, stateType new_state);
     void waitEvent();
     void next () override;
+    //DelayFunctionPtr delayFunctionPointer;
 
 private:
     stateType handleTransition(stateType event);

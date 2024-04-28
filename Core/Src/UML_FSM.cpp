@@ -12,7 +12,14 @@
 using StateFunction = void(*)();
 //volatile Queue eventQueue[NUM_MACHINES];
 
-#include "UML_FSM.hpp"
+
+/*
+void bareMetalDelay(uint32_t delay_tik)
+{
+	for(uint32_t i = 0; i < delay_tik; ++i);
+}
+*/
+//DelayFunctionPtr delayFunctionPointer = bareMetalDelay;
 
 // TransitionTable constructor
 TransitionTable::TransitionTable() : num_states(NUM_STATES), num_events(NUM_EVENTS) {
@@ -22,6 +29,7 @@ TransitionTable::TransitionTable() : num_states(NUM_STATES), num_events(NUM_EVEN
 // FiniteStateMachine constructor
 FiniteStateMachine::FiniteStateMachine() : thisState(-1), startState(-1) {
     transitionTable = TransitionTable();
+    delayFunctionPointer = &bareMetalDelay;
 }
 
 // FiniteStateMachine destructor
@@ -107,7 +115,7 @@ void EventStates::waitEvent() {
     while (1) {
 
         while (eventQueuePtr->empty()) {
-            osDelay(1);
+        	(pFiniteStateMachine->*(&FiniteStateMachine::delayFunctionPointer))(1);
         }
 
        currentEvent = eventQueuePtr->front();
@@ -115,7 +123,7 @@ void EventStates::waitEvent() {
             eventQueuePtr->pop();
             break;
         } else {
-            osDelay(1);
+        	(pFiniteStateMachine->*(&FiniteStateMachine::delayFunctionPointer))(1);
         }
     }
 
@@ -178,6 +186,15 @@ void FiniteStateMachine::next()
 	pState->next();
 }
 
+void bareMetalDelay(uint32_t delay_tik)
+{
+	for(uint32_t i = 0; i < delay_tik; ++i);
+}
+
+// Метод для изменения указателя на функцию задержки
+void FiniteStateMachine::setDelayFunctionPointer(DelayFunctionPtr newPtr) {
+    delayFunctionPointer = newPtr;
+}
 
 /*
 
